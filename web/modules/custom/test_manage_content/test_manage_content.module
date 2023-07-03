@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * This is the module to help managing content.
+ */
+
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function test_manage_content_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help.
+    case 'help.page.test_manage_content':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The Test Manage Content module provides tools to help managing these site contents.') . '</p>';
+
+      return $output;
+  }
+}
+
+function test_manage_content_cron() {
+  /** @var QueueFactory $queue_factory */
+  $queue_factory = \Drupal::service('queue');
+  /** @var QueueInterface $queue */
+  $queue = $queue_factory->get('unpublish_expired_events');
+
+  // Select all expired Events.
+  $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()->accessCheck(FALSE);
+  $datetime = new DrupalDateTime('2022-05-15 04:00:00');
+  dump($datetime->format('Y-m-d H:i:s'));
+  $query->condition('field_date_range.end_value', $datetime, '<');
+  $query->condition('status', TRUE);
+  $nodes = $query->execute();
+
+  // Create an item in the queue for each one.
+  foreach ($nodes as $node_id) {
+    $item = new \stdClass();
+    $item->nid = $node_id;
+    $queue->createItem($item);
+  }
+  
+}

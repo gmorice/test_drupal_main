@@ -1,0 +1,5 @@
+name: Test Manage Content
+description: Manage Content on this Test Drupal site.
+package: Content
+type: module
+core_version_requirement: ^9.2 || ^10
