@@ -30,7 +30,7 @@ function test_manage_content_cron() {
   $queue = $queue_factory->get('unpublish_expired_events');
 
   // Select all expired Events.
-  $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()->accessCheck(FALSE);
+  $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()->accessCheck(TRUE);
   $datetime = new DrupalDateTime();
   $query->condition('field_date_range.end_value', $datetime, '<');
   $query->condition('status', TRUE);
