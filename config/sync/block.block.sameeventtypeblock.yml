@@ -1,0 +1,30 @@
+uuid: e6056e64-21d3-49b3-ac8c-42eaef01b853
+langcode: fr
+status: true
+dependencies:
+  module:
+    - node
+    - test_manage_content
+  theme:
+    - test_drupal
+id: sameeventtypeblock
+theme: test_drupal
+region: content
+weight: 0
+provider: null
+plugin: same_event_type_block
+settings:
+  id: same_event_type_block
+  label: 'Same Event Type Block'
+  label_display: '0'
+  provider: test_manage_content
+  context_mapping:
+    node: '@node.node_route_context:node'
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      event: event
