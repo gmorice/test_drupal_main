@@ -31,8 +31,7 @@ function test_manage_content_cron() {
 
   // Select all expired Events.
   $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()->accessCheck(FALSE);
-  $datetime = new DrupalDateTime('2022-05-15 04:00:00');
-  dump($datetime->format('Y-m-d H:i:s'));
+  $datetime = new DrupalDateTime();
   $query->condition('field_date_range.end_value', $datetime, '<');
   $query->condition('status', TRUE);
   $nodes = $query->execute();
