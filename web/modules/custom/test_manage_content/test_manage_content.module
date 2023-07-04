@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
@@ -26,7 +27,6 @@ function test_manage_content_help($route_name, RouteMatchInterface $route_match)
 function test_manage_content_cron() {
   /** @var QueueFactory $queue_factory */
   $queue_factory = \Drupal::service('queue');
-  /** @var QueueInterface $queue */
   $queue = $queue_factory->get('unpublish_expired_events');
 
   // Select all expired Events.
