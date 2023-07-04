@@ -41,7 +41,7 @@ function test_manage_content_cron() {
 }
 
 /**
- * Retrieve expired events nodes.
+ * Retrieve expired Events nodes.
  */
 function getExpiredEvents() {
   $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()->accessCheck(FALSE);

@@ -35,6 +35,14 @@ content:
       format_type: long
       separator: '->'
     third_party_settings: {  }
+    weight: 3
+    region: content
+  field_event_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
     weight: 2
     region: content
   links:
@@ -43,7 +51,6 @@ content:
     weight: 0
     region: content
 hidden:
-  field_event_type: true
   field_image: true
   field_string_long: true
   langcode: true
