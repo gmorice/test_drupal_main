@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SameEventTypeBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
-   * Define quantity of other Events to display.
+   * Define quantity of linked Events to display.
    */
   const NB_EVENTS = 3;
 
@@ -93,7 +93,7 @@ class SameEventTypeBlock extends BlockBase implements ContainerFactoryPluginInte
     // Retrieve 3 contents, which end date is not passed and sort by begin date.
     $query = $this->entityTypeManager->getStorage('node')->getQuery()->accessCheck(FALSE);
     $query->condition('status', TRUE);
-    // And end date not passed.
+    // And end date is not passed.
     $query->condition('field_date_range.end_value', new DrupalDateTime(), '>');
     // Order by begin date.
     $query->sort('field_date_range.value', 'ASC');
@@ -105,7 +105,6 @@ class SameEventTypeBlock extends BlockBase implements ContainerFactoryPluginInte
     }
     $query->range(0, self::NB_EVENTS);
     $nids = $query->execute();
-    $other_nids = [];
 
     // If there are less than 3 results, extend the request to others Categories.
     $count = count($nids);

@@ -30,11 +30,7 @@ function test_manage_content_cron() {
   $queue = $queue_factory->get('unpublish_expired_events');
 
   // Select all expired Events.
-  $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()->accessCheck(TRUE);
-  $datetime = new DrupalDateTime();
-  $query->condition('field_date_range.end_value', $datetime, '<');
-  $query->condition('status', TRUE);
-  $nodes = $query->execute();
+  $nodes = getExpiredEvents();
 
   // Create an item in the queue for each one.
   foreach ($nodes as $node_id) {
@@ -42,5 +38,15 @@ function test_manage_content_cron() {
     $item->nid = $node_id;
     $queue->createItem($item);
   }
-  
+}
+
+/**
+ * Retrieve expired events nodes.
+ */
+function getExpiredEvents() {
+  $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()->accessCheck(FALSE);
+  $datetime = new DrupalDateTime();
+  $query->condition('status', TRUE);
+  $query->condition('field_date_range.end_value', $datetime, '<');
+  return $query->execute();
 }
